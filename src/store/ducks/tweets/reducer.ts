@@ -1,4 +1,4 @@
-import {TweetsStateType} from "./contracts/state";
+import {AddTweetEnum, TweetsStateType} from "./contracts/state";
 import produce, {Draft} from "immer";
 import {TweetsActionEnum, TweetsActionTypes} from "./actionCreators";
 import {LoadingStateEnum} from "../../storeTypes";
@@ -6,6 +6,7 @@ import {LoadingStateEnum} from "../../storeTypes";
 const initialTweetsState: TweetsStateType = {
     items: [],
     loadingState: LoadingStateEnum.NEVER,
+    addTweetState: AddTweetEnum.NEVER,
 }
 
 export const tweetsReducer = produce(
@@ -25,8 +26,18 @@ export const tweetsReducer = produce(
             draft.loadingState = action.payload
             break
         }
+        case TweetsActionEnum.SET_ADD_TWEET_STATE: {
+            draft.addTweetState = action.payload
+            break
+        }
+        case TweetsActionEnum.FETCH_ADD_TWEET: {
+            draft.addTweetState = AddTweetEnum.LOADING
+            break
+        }
         case TweetsActionEnum.ADD_TWEET: {
-            draft.items.push(action.payload)
+            draft.items.unshift(action.payload)
+            // TODO: What status choose if tweet was added
+            draft.addTweetState = AddTweetEnum.NEVER
             break
         }
         default: {

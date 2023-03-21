@@ -1,14 +1,18 @@
 import {AppStateType} from "../../store";
 import {createSelector} from "reselect";
-import {TweetsStateType} from "./contracts/state";
+import {AddTweetEnum, TweetsStateType} from "./contracts/state";
 import {LoadingStateEnum} from "../../storeTypes";
 
-const tweetsSelectors = (state: AppStateType): TweetsStateType => state.tweets
+const selectTweetsState = (state: AppStateType): TweetsStateType => state.tweets
 
-export const selectTweets = createSelector(tweetsSelectors, (tweets) => tweets.items)
+export const selectTweets = createSelector(selectTweetsState, (tweets) => tweets.items)
 
-export const selectTweetsLoadingState = (state: AppStateType): LoadingStateEnum => tweetsSelectors(state).loadingState
+export const selectTweetsLoadingState = (state: AppStateType): LoadingStateEnum =>
+    selectTweetsState(state).loadingState
+export const selectAddTweetState = (state: AppStateType): AddTweetEnum =>
+    selectTweetsState(state).addTweetState
+
 export const selectIsTweetsLoading = (state: AppStateType): boolean =>
-    tweetsSelectors(state).loadingState === LoadingStateEnum.LOADING
+    selectTweetsState(state).loadingState === LoadingStateEnum.LOADING
 export const selectIsTweetsLoaded = (state: AppStateType): boolean =>
-    tweetsSelectors(state).loadingState === LoadingStateEnum.LOADED
+    selectTweetsState(state).loadingState === LoadingStateEnum.LOADED

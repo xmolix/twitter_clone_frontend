@@ -1,18 +1,22 @@
-import axios from "axios";
-import {TweetsStateType} from "../../store/ducks/tweets/contracts/state";
+import { axios } from "../../core/axios";
 import {TweetType} from "../../store/storeTypes";
 
+type Response<T> = {
+    status: string,
+    data: T,
+}
+
 export const TweetsAPI = {
-    fetchTweets(): Promise<TweetsStateType["items"]> {
-        return axios.get("/tweets")
-            .then(({ data }) => data)
+    async fetchTweets(): Promise<TweetType[]> {
+        const { data } = await axios.get<Response<TweetType[]>>("/tweets")
+        return data.data
     },
-    fetchTweetData(tweetID: string): Promise<TweetType[]> {
-        return axios.get(`/tweets?_id=${tweetID}`)
-            .then(({data}) => data)
+    async fetchTweetData(tweetID: string): Promise<TweetType> {
+        const { data } = await axios.get<Response<TweetType>>(`/tweets/${tweetID}`)
+        return data.data
     },
-    fetchAddTweet(payload: TweetType): Promise<TweetType> {
-        return axios.post("/tweets", payload)
-            .then(({data}) => data)
+    async fetchAddTweet(payload: TweetType["text"]): Promise<TweetType> {
+        const { data } = await axios.post<Response<TweetType>>("/tweets", { text: payload })
+        return data.data
     }
 }

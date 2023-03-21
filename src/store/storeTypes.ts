@@ -10,8 +10,8 @@ export type TweetType = {
     user: {
         fullName: string,
         userName: string,
-        time: string,
         avatar: string,
     },
     text: string,
+    createdAt: string,
 }

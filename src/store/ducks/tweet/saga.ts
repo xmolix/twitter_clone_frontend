@@ -6,8 +6,8 @@ import {actionTweet, FetchTweetDataActionType, TweetActionEnum} from "./actionCr
 function* fetchTweetDataRequest({ payload: tweetID }: FetchTweetDataActionType): Generator {
     try {
         // @ts-ignore
-        const data: TweetType[] = yield call(TweetsAPI.fetchTweetData, tweetID)
-        yield put(actionTweet.setTweetData(data[0]))
+        const data: TweetType = yield call(TweetsAPI.fetchTweetData, tweetID)
+        yield put(actionTweet.setTweetData(data))
     } catch (error) {
         yield put(actionTweet.setTweetLoadingState(LoadingStateEnum.ERROR))
     }
