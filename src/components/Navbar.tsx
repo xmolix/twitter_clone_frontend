@@ -15,7 +15,6 @@ import {TwitterModal} from "./Modals/TwitterModal";
 import {TweetTextFieldForm} from "./TweetTextFieldForm";
 import {classesAvatar, classesTweet} from "../pages/Home/theme";
 import {NavLink} from "react-router-dom";
-import {grey} from "@mui/material/colors";
 
 const TwitterNavbarBtn = styled(IconButton)({
     display: "flex",

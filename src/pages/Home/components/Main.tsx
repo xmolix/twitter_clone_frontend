@@ -8,17 +8,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectIsTweetsLoading, selectTweets} from "../../../store/ducks/tweets/selectors";
 import {actionTweets} from "../../../store/ducks/tweets/actionCreators";
 import {Loading} from "../../../components/Loading";
-import {styled} from "@mui/material";
-import { NavLink } from 'react-router-dom';
-import {grey} from "@mui/material/colors";
-import Paper from "@mui/material/Paper";
-
-const NavLinkContainer = styled(Typography)({
-    "& a": {
-        textDecoration: 'none',
-        color: "inherit",
-    },
-})
 
 export const Main = () => {
     const dispatch = useDispatch()
@@ -38,22 +27,18 @@ export const Main = () => {
             />
             <Typography sx={classTweetTextField} component={"hr"} />
                 { isLoadingTweets
-                        ? <Loading />
-                        : tweets.map(tweet =>
-                        <NavLinkContainer>
-                            <NavLink to={`/home/tweet/${tweet._id}`}>
-                            <TweetComponent id={tweet._id}
-                                            text={tweet.text}
-                                            user={{
-                                               fullName: tweet.user.fullName,
-                                               userName: tweet.user.userName,
-                                               time: tweet.user.time,
-                                               avatar: tweet.user.avatar,
-                                           }}
-                            />
-                            </NavLink>
-                        </NavLinkContainer>
-                        )
+                    ? <Loading />
+                    : tweets.map(tweet =>
+                        <TweetComponent _id={tweet._id}
+                                        text={tweet.text}
+                                        createdAt={tweet.createdAt}
+                                        user={{
+                                           fullName: tweet.user.fullName,
+                                           userName: tweet.user.userName,
+                                           avatar: tweet.user.avatar,
+                                       }}
+                        />
+                    )
                 }
         </>
     )

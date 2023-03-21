@@ -112,10 +112,6 @@ export const TweeterActualTheme = styled(Typography) ({
     }
 })
 
-export const TweeterWhomRead = styled(Typography) ({
-
-})
-
 export const classesTweet = {
     borderRadius: 0,
     borderTop: "none",

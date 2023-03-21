@@ -4,8 +4,8 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {actionTweet} from "../../store/ducks/tweet/actionCreators";
 import {selectIsTweetLoading, selectTweetData} from "../../store/ducks/tweet/selectors";
-import {TweetComponent} from "../../components/TweetComponent";
 import {Loading} from "../../components/Loading";
+import {FullTweetComponent} from "./components/FullTweetComponent";
 
 export const Tweet = () => {
     const dispatch = useDispatch()
@@ -28,9 +28,10 @@ export const Tweet = () => {
         <>
             <MainHeader title={"Твит"} backArrow />
             { !isLoading && tweetData
-                ? <TweetComponent id={tweetData._id}
-                                  text={tweetData.text}
-                                  user={tweetData.user}
+                ? <FullTweetComponent _id={tweetData._id}
+                                      text={tweetData.text}
+                                      user={tweetData.user}
+                                      createdAt={tweetData.createdAt}
                 />
                 : <Loading />
             }

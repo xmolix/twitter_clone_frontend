@@ -1,6 +1,6 @@
 import {Action} from "redux";
 import {InferActionTypes} from "../../store";
-import {LoadingStateEnum, TweetType} from "../../storeTypes";
+import {LoadingStateEnum} from "../../storeTypes";
 import {TweetStateType} from "./contracts/state";
 
 export enum TweetActionEnum {
