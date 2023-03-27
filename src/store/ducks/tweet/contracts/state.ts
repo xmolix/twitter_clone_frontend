@@ -1,6 +1,6 @@
-import {LoadingStateEnum, TweetType} from "../../../storeTypes";
+import {LoadingStatusEnum, TweetType} from "../../../storeTypes";
 
 export type TweetStateType = {
     data?: TweetType,
-    loadingState: LoadingStateEnum
+    loadingState: LoadingStatusEnum
 }

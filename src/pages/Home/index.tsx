@@ -21,8 +21,7 @@ import Divider from '@mui/material/Divider';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import {Main} from "./components/Main";
-import {Tweet} from "./Tweet";
-import {actionTweet} from "../../store/ducks/tweet/actionCreators";
+import {Tweet} from "./components/Tweet";
 
 export const Home: FC = () => {
     const dispatch = useDispatch()

@@ -20,6 +20,7 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import {Loading} from "./Loading";
+import {Notification} from "./Notification";
 
 const TweetTextField = styled(Paper)({
     padding: "20px 15px",
@@ -67,7 +68,7 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
     const dispatch = useDispatch()
 
     const [text, setText] = useState<string>("")
-    const [visibleNotification, setVisibleNotification] = useState<boolean>(false)
+    // const [visibleNotification, setVisibleNotification] = useState<boolean>(false)
 
     const textLimitPercent = Math.round((text.length / MAX_LENGTH) * 100)
 
@@ -76,16 +77,16 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
             ? "warning" : "error" : "primary"
 
     const addTweetState = useSelector(selectAddTweetState)
-
-    useEffect(() => {
-        if (addTweetState === AddTweetEnum.ERROR) {
-            setVisibleNotification(true)
-        }
-    }, [addTweetState])
-
-    const handleCloseNotification = () => {
-        setVisibleNotification(false)
-    }
+    //
+    // useEffect(() => {
+    //     if (addTweetState === AddTweetEnum.ERROR) {
+    //         setVisibleNotification(true)
+    //     }
+    // }, [addTweetState])
+    //
+    // const handleCloseNotification = () => {
+    //     setVisibleNotification(false)
+    // }
 
     const handleChangeTextarea = (e: FormEvent<HTMLTextAreaElement>): void => {
         if (e.currentTarget) {
@@ -162,13 +163,16 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
                     </Grid>
                 </Grid>
             </TweetTextField>
-            <Snackbar open={visibleNotification} autoHideDuration={10000}
-                      anchorOrigin={{vertical: "bottom", horizontal: "center"}}
-                      onClose={handleCloseNotification}>
-                <Alert onClose={handleCloseNotification} severity="error">
-                    Ошибка при добавлении твита <Typography component={"span"} role={"img"}>☹️</Typography>
-                </Alert>
-            </Snackbar>
+            <Notification visible={addTweetState === AddTweetEnum.ERROR} severity={"error"}>
+                Ошибка при добавлении твита <Typography component={"span"} role={"img"}>☹️</Typography>
+            </Notification>
+            {/*<Snackbar open={visibleNotification} autoHideDuration={10000}*/}
+            {/*          anchorOrigin={{vertical: "bottom", horizontal: "center"}}*/}
+            {/*          onClose={handleCloseNotification}>*/}
+            {/*    <Alert onClose={handleCloseNotification} severity="error">*/}
+            {/*        Ошибка при добавлении твита <Typography component={"span"} role={"img"}>☹️</Typography>*/}
+            {/*    </Alert>*/}
+            {/*</Snackbar>*/}
         </>
     )
 }

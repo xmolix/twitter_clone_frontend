@@ -1,11 +1,11 @@
 import {TweetStateType} from "./contracts/state";
 import produce, {Draft} from "immer";
 import {TweetActionEnum, TweetActionTypes} from "./actionCreators";
-import {LoadingStateEnum} from "../../storeTypes";
+import {LoadingStatusEnum} from "../../storeTypes";
 
 const initialTweetState: TweetStateType = {
     data: undefined,
-    loadingState: LoadingStateEnum.NEVER,
+    loadingState: LoadingStatusEnum.NEVER,
 }
 
 export const tweetReducer = produce(
@@ -13,12 +13,12 @@ export const tweetReducer = produce(
     switch (action.type) {
         case TweetActionEnum.SET_TWEET_DATA: {
             draft.data = action.payload
-            draft.loadingState = LoadingStateEnum.LOADED
+            draft.loadingState = LoadingStatusEnum.LOADED
             break
         }
         case TweetActionEnum.FETCH_TWEET_DATA: {
             draft.data = undefined
-            draft.loadingState = LoadingStateEnum.LOADING
+            draft.loadingState = LoadingStatusEnum.LOADING
             break
         }
         case TweetActionEnum.SET_LOADING_STATE: {

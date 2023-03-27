@@ -21,14 +21,17 @@ export const TweetHeader = styled(Paper)({
     padding: "10px 15px",
     height: 53,
     position: "relative",
+
     "& button": {
         position: "absolute",
         top: 7,
         left: 7,
     },
+
     "& h6": {
         fontWeight: "bold",
     },
+
     "& svg path": {
         fill: grey[900],
     },

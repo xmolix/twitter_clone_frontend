@@ -1,11 +1,11 @@
 import produce, {Draft} from "immer";
-import {LoadingStateEnum} from "../../storeTypes";
+import {LoadingStatusEnum} from "../../storeTypes";
 import {TopicsState} from "./contracts/state";
 import {TopicsActionEnum, TopicsActionTypes} from "./actionCreators";
 
 const initialTopicsState: TopicsState = {
     items: [],
-    loadingState: LoadingStateEnum.NEVER,
+    loadingState: LoadingStatusEnum.NEVER,
 }
 
 export const topicsReducer = produce(
@@ -13,12 +13,12 @@ export const topicsReducer = produce(
     switch (action.type) {
         case TopicsActionEnum.SET_TOPICS: {
             draft.items = action.payload
-            draft.loadingState = LoadingStateEnum.LOADED
+            draft.loadingState = LoadingStatusEnum.LOADED
             break
         }
         case TopicsActionEnum.FETCH_TOPICS: {
             draft.items = []
-            draft.loadingState = LoadingStateEnum.LOADING
+            draft.loadingState = LoadingStatusEnum.LOADING
             break
         }
         case TopicsActionEnum.SET_LOADING_STATE: {

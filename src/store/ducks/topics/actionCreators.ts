@@ -1,7 +1,7 @@
 import {Action} from "redux";
 import {InferActionTypes} from "../../store";
 import {TopicsState} from "./contracts/state";
-import {LoadingStateEnum} from "../../storeTypes";
+import {LoadingStatusEnum} from "../../storeTypes";
 
 export enum TopicsActionEnum {
     SET_TOPICS = "topics/SET_TOPICS",
@@ -16,7 +16,7 @@ export const actionTopics = {
     fetchTopics: (): ReturnActionsTypes<FetchTopicsActionType> => ({
             type: TopicsActionEnum.FETCH_TOPICS
     } as const),
-    setTopicsLoadingState: (payload: LoadingStateEnum): ReturnActionsTypes<SetTopicsLoadingStateActionType> => ({
+    setTopicsLoadingState: (payload: LoadingStatusEnum): ReturnActionsTypes<SetTopicsLoadingStateActionType> => ({
             type: TopicsActionEnum.SET_LOADING_STATE, payload
     } as const),
 }

@@ -219,14 +219,3 @@ export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) =>
         </TweetContent>
     )
 }
-
-// type TweetPropsType = {
-//     user: {
-//         fullName: string,
-//         userName: string,
-//         time: string,
-//         avatar: string,
-//     },
-//     text: string,
-//     id: string,
-// }

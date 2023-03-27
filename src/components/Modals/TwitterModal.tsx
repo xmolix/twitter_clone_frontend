@@ -62,7 +62,6 @@ type SingInModalPropsType = {
     handleClose: () => void,
     children: React.ReactNode,
     title?: string,
-
     maxWidth?: false | Breakpoint | undefined
 }
 type DialogTitleProps = {

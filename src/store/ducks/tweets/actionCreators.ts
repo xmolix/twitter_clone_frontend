@@ -1,6 +1,6 @@
 import {Action} from "redux";
 import {InferActionTypes} from "../../store";
-import {LoadingStateEnum, TweetType} from "../../storeTypes";
+import {LoadingStatusEnum, TweetType} from "../../storeTypes";
 import {AddTweetEnum, TweetsStateType} from "./contracts/state";
 
 export enum TweetsActionEnum {
@@ -19,7 +19,7 @@ export const actionTweets = {
     fetchTweets: (): ReturnActionsTypes<FetchTweetsActionType> => (
         {type: TweetsActionEnum.FETCH_TWEETS} as const
     ),
-    setTweetsLoadingState: (payload: LoadingStateEnum): ReturnActionsTypes<SetTweetsLoadingStateActionType> => (
+    setTweetsLoadingState: (payload: LoadingStatusEnum): ReturnActionsTypes<SetTweetsLoadingStateActionType> => (
         {type: TweetsActionEnum.SET_LOADING_STATE, payload} as const
     ),
     fetchAddTweet: (payload: string): ReturnActionsTypes<FetchAddTweetActionType> => ({
@@ -44,7 +44,7 @@ type FetchTweetsActionType = {
 
 type SetTweetsLoadingStateActionType = {
     type: TweetsActionEnum.SET_LOADING_STATE,
-    payload: LoadingStateEnum
+    payload: LoadingStatusEnum
 }
 
 export type FetchAddTweetActionType = {
