@@ -2,7 +2,7 @@ import {actionTweets, FetchAddTweetActionType, TweetsActionEnum} from "./actionC
 import {call, put, takeLatest} from "redux-saga/effects"
 import {TweetsAPI} from "../../../services/api/tweetsAPI";
 import {AddTweetEnum, TweetsStateType} from "./contracts/state";
-import {LoadingStateEnum, TweetType} from "../../storeTypes";
+import {LoadingStatusEnum, TweetType} from "../../storeTypes";
 
 function* fetchTweetsRequest(): Generator {
     try {
@@ -10,7 +10,7 @@ function* fetchTweetsRequest(): Generator {
         const items: TweetsStateType["items"] = yield call(TweetsAPI.fetchTweets)
         yield put(actionTweets.setTweets(items))
     } catch (error) {
-        yield put(actionTweets.setTweetsLoadingState(LoadingStateEnum.ERROR))
+        yield put(actionTweets.setTweetsLoadingState(LoadingStatusEnum.ERROR))
     }
 }
 

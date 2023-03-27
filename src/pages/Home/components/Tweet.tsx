@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
-import {MainHeader} from "../../components/MainHeader";
+import {MainHeader} from "../../../components/MainHeader";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {actionTweet} from "../../store/ducks/tweet/actionCreators";
-import {selectIsTweetLoading, selectTweetData} from "../../store/ducks/tweet/selectors";
-import {Loading} from "../../components/Loading";
-import {FullTweetComponent} from "./components/FullTweetComponent";
+import {actionTweet} from "../../../store/ducks/tweet/actionCreators";
+import {selectIsTweetLoading, selectTweetData} from "../../../store/ducks/tweet/selectors";
+import {Loading} from "../../../components/Loading";
+import {FullTweetComponent} from "./FullTweetComponent";
 
 export const Tweet = () => {
     const dispatch = useDispatch()

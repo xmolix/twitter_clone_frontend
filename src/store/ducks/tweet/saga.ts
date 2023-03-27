@@ -1,6 +1,6 @@
 import {call, put, takeEvery} from "redux-saga/effects"
 import {TweetsAPI} from "../../../services/api/tweetsAPI";
-import {LoadingStateEnum, TweetType} from "../../storeTypes";
+import {LoadingStatusEnum, TweetType} from "../../storeTypes";
 import {actionTweet, FetchTweetDataActionType, TweetActionEnum} from "./actionCreators";
 
 function* fetchTweetDataRequest({ payload: tweetID }: FetchTweetDataActionType): Generator {
@@ -9,7 +9,7 @@ function* fetchTweetDataRequest({ payload: tweetID }: FetchTweetDataActionType):
         const data: TweetType = yield call(TweetsAPI.fetchTweetData, tweetID)
         yield put(actionTweet.setTweetData(data))
     } catch (error) {
-        yield put(actionTweet.setTweetLoadingState(LoadingStateEnum.ERROR))
+        yield put(actionTweet.setTweetLoadingState(LoadingStatusEnum.ERROR))
     }
 }
 

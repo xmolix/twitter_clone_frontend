@@ -1,4 +1,4 @@
-import {LoadingStateEnum} from "../../../storeTypes";
+import {LoadingStatusEnum} from "../../../storeTypes";
 
 type Topics = {
     _id: string,
@@ -8,5 +8,5 @@ type Topics = {
 
 export type TopicsState = {
     items: Topics[],
-    loadingState: LoadingStateEnum,
+    loadingState: LoadingStatusEnum,
 }

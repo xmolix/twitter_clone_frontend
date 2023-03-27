@@ -1,4 +1,4 @@
-import {LoadingStateEnum, TweetType} from "../../../storeTypes";
+import {LoadingStatusEnum, TweetType} from "../../../storeTypes";
 
 export enum AddTweetEnum {
     LOADING = "LOADING",
@@ -8,6 +8,6 @@ export enum AddTweetEnum {
 
 export type TweetsStateType = {
     items: TweetType[],
-    loadingState: LoadingStateEnum,
+    loadingState: LoadingStatusEnum,
     addTweetState: AddTweetEnum,
 }

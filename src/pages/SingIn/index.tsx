@@ -1,16 +1,19 @@
 import React, {FC, useRef, useState} from 'react';
 import {makeStyles} from "@mui/styles";
-import {Button, FormControl, FormGroup, Typography} from "@mui/material";
 import TwitterIcon from '@mui/icons-material/Twitter';
 import SearchIcon from '@mui/icons-material/Search';
 import PeopleIcon from '@mui/icons-material/PeopleOutline';
 import MessageIcon from '@mui/icons-material/MarkUnreadChatAltOutlined';
-import {TwitterModal} from "../components/Modals/TwitterModal";
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import {Theme} from "@mui/material/styles";
+import {LoginModal} from "./components/LoginModal";
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
 
 const useStyles = makeStyles((theme: Theme) => ({
     wrapper: {
@@ -156,44 +159,7 @@ export const SingIn: FC = () => {
                             color={"primary"}
                             fullWidth
                     >Войти</Button>
-                    <TwitterModal open={open === "singIn"}
-                                  handleClose={handleClose}
-                                  title={"Войти в Твиттер"}>
-                        <DialogContent style={{padding: "0 15px 8px"}}>
-                            <FormControl component={"fieldset"} fullWidth>
-                                <FormGroup aria-label={"position"} row>
-                                    <TextField
-                                        margin="normal"
-                                        id="name"
-                                        label="E-mail"
-                                        type="email"
-                                        fullWidth
-                                        variant="filled"
-                                        inputRef={enterRef}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
-                                    <TextField
-                                        margin="dense"
-                                        id="name"
-                                        label="Пароль"
-                                        type="password"
-                                        fullWidth
-                                        variant="filled"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
-                                    <Button onClick={handleClose}
-                                            variant={"contained"}
-                                            style={{ margin: "12px 0 8px 0" }}
-                                            fullWidth
-                                    >Войти</Button>
-                                </FormGroup>
-                            </FormControl>
-                        </DialogContent>
-                    </TwitterModal>
+                    <LoginModal open={open === "singIn"} handleClose={handleClose} enterRef={enterRef} />
                     <Dialog open={open === "registration"} onClose={handleClose} fullWidth>
                         <DialogContent className={classes.registration}>
                             <FormControl component={"fieldset"} fullWidth>
