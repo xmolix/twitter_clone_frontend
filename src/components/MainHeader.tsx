@@ -20,12 +20,12 @@ export const MainHeader: FC<MainHeaderPropsType> = ({ title, backArrow }) => {
                     ? title
                     : <>
                         <Grid container>
-                            <Grid xs={1}>
+                            <Grid xs={1} item>
                                 <IconButton onClick={goBack}>
                                     <BackIcon />
                                 </IconButton>
                             </Grid>
-                            <Grid xs={11}>
+                            <Grid xs={11} item>
                                 { title }
                             </Grid>
                         </Grid>

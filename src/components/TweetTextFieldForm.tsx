@@ -1,4 +1,4 @@
-import React, {FC, FormEvent, useEffect, useState} from 'react';
+import React, {FC, FormEvent, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {ClassesAvatarType, ClassesTweetType} from "../pages/Home/theme";
 import {actionTweets} from "../store/ducks/tweets/actionCreators";
@@ -17,8 +17,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import {Loading} from "./Loading";
 import {Notification} from "./Notification";
 
@@ -34,19 +32,6 @@ const Textarea = styled(TextareaAutosize)({
 
     ":focus": {
         outline: "none",
-    }
-})
-
-const Alert = styled(MuiAlert)({
-    display: "flex",
-    alignItems: "center",
-    borderRadius: 30,
-    boxShadow: "0 2px 4px black",
-    fontSize: 18,
-    width: '100%',
-
-    "& .MuiAlert-action": {
-        padding: "4px 0 4px 16px"
     }
 })
 
@@ -68,7 +53,6 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
     const dispatch = useDispatch()
 
     const [text, setText] = useState<string>("")
-    // const [visibleNotification, setVisibleNotification] = useState<boolean>(false)
 
     const textLimitPercent = Math.round((text.length / MAX_LENGTH) * 100)
 
@@ -77,16 +61,6 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
             ? "warning" : "error" : "primary"
 
     const addTweetState = useSelector(selectAddTweetState)
-    //
-    // useEffect(() => {
-    //     if (addTweetState === AddTweetEnum.ERROR) {
-    //         setVisibleNotification(true)
-    //     }
-    // }, [addTweetState])
-    //
-    // const handleCloseNotification = () => {
-    //     setVisibleNotification(false)
-    // }
 
     const handleChangeTextarea = (e: FormEvent<HTMLTextAreaElement>): void => {
         if (e.currentTarget) {
@@ -119,7 +93,7 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
                                   value={text}
                         />
                         <Grid container columnSpacing={1} sx={{marginTop: 3}}>
-                            <Grid xs={6}>
+                            <Grid xs={6} item>
                                 <IconButton>
                                     <ImageIcon color={"primary"} />
                                 </IconButton>
@@ -127,7 +101,7 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
                                     <EmojiIcon color={"primary"} />
                                 </IconButton>
                             </Grid>
-                            <Grid xs={6} container justifyContent={"end"}>
+                            <Grid xs={6} item container justifyContent={"end"}>
                                 <Grid sx={classesCircleProgress}>
                                     { text && <>
                                         <Typography component={"span"} margin={1}>
@@ -166,13 +140,6 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
             <Notification visible={addTweetState === AddTweetEnum.ERROR} severity={"error"}>
                 Ошибка при добавлении твита <Typography component={"span"} role={"img"}>☹️</Typography>
             </Notification>
-            {/*<Snackbar open={visibleNotification} autoHideDuration={10000}*/}
-            {/*          anchorOrigin={{vertical: "bottom", horizontal: "center"}}*/}
-            {/*          onClose={handleCloseNotification}>*/}
-            {/*    <Alert onClose={handleCloseNotification} severity="error">*/}
-            {/*        Ошибка при добавлении твита <Typography component={"span"} role={"img"}>☹️</Typography>*/}
-            {/*    </Alert>*/}
-            {/*</Snackbar>*/}
         </>
     )
 }

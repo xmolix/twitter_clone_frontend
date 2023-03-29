@@ -5,23 +5,19 @@ import {MainContainer, TweeterActualTheme, TweetsWrapper, TwitterSearch} from ".
 import {selectIsTopicsLoading, selectTopics} from "../../store/ducks/topics/selectors";
 import {actionTopics} from "../../store/ducks/topics/actionCreators";
 import {NavLink, Route, Routes} from "react-router-dom";
-
-import AddPersonIcon from '@mui/icons-material/PersonAddAlt';
 import SearchIcon from '@mui/icons-material/Search';
 
 import Grid from '@mui/material/Grid';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import InputAdornment from '@mui/material/InputAdornment';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import {Main} from "./components/Main";
 import {Tweet} from "./components/Tweet";
+import {WhomRead} from "./components/WhomRead";
 
 export const Home: FC = () => {
     const dispatch = useDispatch()
@@ -39,10 +35,10 @@ export const Home: FC = () => {
     return (
         <MainContainer maxWidth={false}>
             <Grid container>
-                <Grid xs={2} marginTop={.5}>
+                <Grid xs={2} item marginTop={.5}>
                     <Navbar />
                 </Grid>
-                <Grid xs={7}>
+                <Grid item xs={7}>
                     <TweetsWrapper variant={"outlined"} >
                         <Routes>
                             { renderMultiRoutes({
@@ -53,7 +49,7 @@ export const Home: FC = () => {
                         </Routes>
                     </TweetsWrapper>
                 </Grid>
-                <Grid xs={3} marginTop={.5}>
+                <Grid xs={3} item marginTop={.5}>
                     <Stack position={"sticky"} top={4} ml={1}>
                     <TwitterSearch variant={"outlined"}
                                    placeholder={"Поиск в Твиттере"}
@@ -65,59 +61,34 @@ export const Home: FC = () => {
                                            </InputAdornment>
                                        )}}
                     />
-                        {!isLoadingTopics && <>
-                            <TweeterActualTheme>
-                                <Typography component={"div"}>
-                                    Актуальные темы
-                                </Typography>
-                                <Divider component={"hr"} />
-                                <List>
-                                    {topics.map(t =>
-                                        <React.Fragment key={t._id}>
-                                            <NavLink to={`/home/search?q=${t.name}`}>
-                                                <ListItem>
-                                                    <ListItemText primary={t.name}
-                                                                  secondary={
-                                                                      <Typography component={"span"} variant={"body2"}>
-                                                                          Твитов: {t.count}
-                                                                      </Typography>
-                                                                  }
-                                                    />
-                                                </ListItem>
-                                            </NavLink>
-                                            <Divider component={"hr"} />
-                                        </React.Fragment>
-                                    )}
-                                </List>
-                            </TweeterActualTheme>
-                        </>}
-
-                    <TweeterActualTheme>
-                        <Typography component={"div"}>
-                            Кого читать
-                        </Typography>
-                        <Divider component={"hr"} />
-                        <List>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar alt={"Someone"}
-                                            src={"https://avatars.steamstatic.com/195bb3c555c5e18ba6e83f84316db941e6912825_full.jpg"}
-                                    />
-                                </ListItemAvatar>
-                                <ListItemText primary={"The art of communication"}
-                                              secondary={
-                                                <Typography component={"span"} variant={"body2"}>
-                                                    @TheArtOfCommunication
-                                                </Typography>
-                                              }
-                                />
-                                <IconButton>
-                                    <AddPersonIcon />
-                                </IconButton>
-                            </ListItem>
+                    {!isLoadingTopics && <>
+                        <TweeterActualTheme component={"div"}>
+                            <Typography component={"div"}>
+                                Актуальные темы
+                            </Typography>
                             <Divider component={"hr"} />
-                        </List>
-                    </TweeterActualTheme>
+                            <List>
+                                {topics.map(t =>
+                                    <React.Fragment key={t._id}>
+                                        <NavLink to={`/home/search?q=${t.name}`}>
+                                            <ListItem>
+                                                <ListItemText primary={t.name}
+                                                              secondary={
+                                                                  <Typography component={"span"} variant={"body2"}>
+                                                                      Твитов: {t.count}
+                                                                  </Typography>
+                                                              }
+                                                />
+                                            </ListItem>
+                                        </NavLink>
+                                        <Divider component={"hr"} />
+                                    </React.Fragment>
+                                )}
+                            </List>
+                        </TweeterActualTheme>
+                    </>}
+
+                    <WhomRead />
                     </Stack>
                 </Grid>
             </Grid>

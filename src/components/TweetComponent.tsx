@@ -25,18 +25,18 @@ const TweetContent = styled(Paper)({
     },
 })
 
-const NavLinkContainer = styled(Typography)({
+const NavLinkContainer = styled(Typography)(() =>({
     "& a": {
         textDecoration: 'none',
         color: "inherit",
     },
-})
+})) as typeof Typography
 
-const UserName = styled(Typography)({
+const UserName = styled(Typography)(() =>({
     "& span": {
         color: grey["500"],
     }
-})
+})) as typeof Typography
 
 const TweetIcon = styled(IconButton)({
     marginRight: 5,
@@ -98,7 +98,7 @@ export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) =>
 
     return (
             <TweetContent key={_id} sx={classesTweet} variant={"outlined"}>
-                <NavLinkContainer>
+                <NavLinkContainer component={"div"}>
                     <NavLink to={`/home/tweet/${_id}`}>
                         <Grid container spacing={3}>
                             <Grid item xs={1}>
@@ -108,17 +108,17 @@ export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) =>
                                 />
                             </Grid>
                             <Grid item xs={10}>
-                            <UserName>
+                            <UserName component={"div"}>
                                 <b>{user.fullName}</b>&nbsp;
                                 <span>{`@${user.userName}`}</span>&nbsp;
                                 <span>·</span>&nbsp;
                                 <span>{formatDate(new Date(createdAt))}</span>
                             </UserName>
-                            <Typography lineHeight={1.31}>
+                            <Typography component={"div"} lineHeight={1.31} sx={{ wordBreak: "break-word" }}>
                                 {text}
                             </Typography>
                             <Grid container alignItems={"center"} marginTop={.8} columnSpacing={1}>
-                                <Grid container alignItems={"center"} xs={2}>
+                                <Grid container alignItems={"center"} item xs={2}>
                                     <Tooltip TransitionComponent={Fade}
                                              TransitionProps={{ timeout: 300 }}
                                              enterDelay={1000}
@@ -129,7 +129,7 @@ export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) =>
                                     </Tooltip>
                                     <Typography color={grey["700"]}>37</Typography>
                                 </Grid>
-                                <Grid container alignItems={"center"} xs={2}>
+                                <Grid container alignItems={"center"} item xs={2}>
                                     <Tooltip TransitionComponent={Fade}
                                              TransitionProps={{ timeout: 300 }}
                                              enterDelay={1000}
@@ -140,7 +140,7 @@ export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) =>
                                     </Tooltip>
                                     <Typography color={grey["700"]}>14</Typography>
                                 </Grid>
-                                <Grid container alignItems={"center"} xs={2}>
+                                <Grid container alignItems={"center"} item xs={2}>
                                     <Tooltip TransitionComponent={Fade}
                                              TransitionProps={{ timeout: 300 }}
                                              enterDelay={1000}
@@ -151,7 +151,7 @@ export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) =>
                                     </Tooltip>
                                     <Typography color={grey["700"]}>479</Typography>
                                 </Grid>
-                                <Grid container alignItems={"center"} xs={2}>
+                                <Grid container alignItems={"center"} item xs={2}>
                                     <Tooltip TransitionComponent={Fade}
                                              TransitionProps={{ timeout: 300 }}
                                              enterDelay={1000}
@@ -162,7 +162,7 @@ export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) =>
                                     </Tooltip>
                                     <Typography color={grey["700"]}>5683</Typography>
                                 </Grid>
-                                <Grid container alignItems={"center"} xs={2}>
+                                <Grid container alignItems={"center"} item xs={2}>
                                     <Tooltip TransitionComponent={Fade}
                                              TransitionProps={{ timeout: 300 }}
                                              enterDelay={1000}

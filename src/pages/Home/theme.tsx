@@ -73,7 +73,7 @@ export const TwitterSearch = styled(TextField)({
     },
 })
 
-export const TweeterActualTheme = styled(Typography) ({
+export const TweeterActualTheme = styled(Typography)(() => ({
     backgroundColor: "#E6ECF0",
     borderRadius: 30,
     marginTop: 20,
@@ -113,7 +113,7 @@ export const TweeterActualTheme = styled(Typography) ({
     "& a": {
         textDecoration: "none",
     }
-})
+})) as typeof Typography
 
 export const classesTweet = {
     borderRadius: 0,

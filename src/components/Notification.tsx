@@ -41,10 +41,6 @@ export const Notification: FC<NotificationPropsType> = (
         }
     }, [visible])
 
-    // setTimeout(() => {
-    //     setVisibleNotification(false)
-    // }, 1)
-
     const handleCloseNotification = () => {
         setVisibleNotification(false)
     }
