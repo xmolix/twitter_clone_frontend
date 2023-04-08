@@ -2,35 +2,38 @@ import React, {useEffect} from 'react'
 import {Route, Routes, useNavigate} from 'react-router-dom';
 import {SingIn} from "./pages/SingIn";
 import {Home} from "./pages/Home";
-import {AuthAPI} from "./services/api/authAPI";
 import {useDispatch, useSelector} from "react-redux";
 import {actionUser} from "./store/ducks/user/actionCreators";
-import {selectIsAuth} from "./store/ducks/user/selectors";
+import {selectUserIsAuth, selectUserIsLoaded} from "./store/ducks/user/selectors";
+import {LoadingStatusEnum} from "./store/storeTypes";
+import { Loading } from './components/Loading';
+import TwitterIcon from "@mui/icons-material/Twitter";
 
 const App = () => {
     const dispatch = useDispatch()
 
-    const isAuth = useSelector(selectIsAuth)
+    const isAuth = useSelector(selectUserIsAuth)
+    const isLoaded = useSelector(selectUserIsLoaded)
+    // @ts-ignore
+    const isReady = isLoaded !== LoadingStatusEnum.NEVER && isLoaded !== LoadingStatusEnum.LOADING
 
     const redirect = useNavigate()
 
     useEffect(() => {
-        if (isAuth) {
+        if (!isAuth && isReady) {
             redirect("/")
         }
-    }, [isAuth, redirect])
+    }, [isAuth, isReady, redirect])
 
-    const checkAuth = async () => {
-        try {
-            const { data } = await AuthAPI.getMe()
-            dispatch(actionUser.setUserData(data))
-        } catch (err) {
-            console.error(err)
-        }
-    }
     useEffect(() => {
-        checkAuth()
-    }, [])
+        dispatch(actionUser.fetchUserData())
+    }, [dispatch])
+
+    if (!isAuth) {
+        return <Loading color={"primary"} size={90} marginY={50} thickness={2}>
+            <TwitterIcon color={"primary"} sx={{ position: "absolute", fontSize: 50, marginTop: 2.5 }} />
+        </Loading>
+    }
 
     return (
         <div>

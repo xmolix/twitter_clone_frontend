@@ -25,14 +25,14 @@ const TweetContent = styled(Paper)({
     },
 })
 
-const NavLinkContainer = styled(Typography)(() =>({
+const NavLinkContainer = styled(Typography)(() => ({
     "& a": {
         textDecoration: 'none',
         color: "inherit",
     },
 })) as typeof Typography
 
-const UserName = styled(Typography)(() =>({
+const UserName = styled(Typography)(() => ({
     "& span": {
         color: grey["500"],
     }

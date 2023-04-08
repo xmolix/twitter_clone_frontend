@@ -12,8 +12,7 @@ import {Theme} from "@mui/material/styles";
 import {LoginModal} from "./components/LoginModal";
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup';
+import {RegisterModal} from "./components/RegisterModal";
 
 const useStyles = makeStyles((theme: Theme) => ({
     wrapper: {
@@ -76,21 +75,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginTop: "10px !important",
         marginBottom: "45px !important",
     },
-    registrationTitle: {
-        display: "flex",
-        justifyContent: "end",
-        position: "relative",
-        "& svg": {
-            position: "absolute",
-            top: -1,
-            width: "100%",
-            textAlign: "center",
-            fontSize: 30,
-        },
-    },
-    registration: {
-        padding: "15px 19px !important"
-    }
 }))
 
 export const SingIn: FC = () => {
@@ -160,45 +144,7 @@ export const SingIn: FC = () => {
                             fullWidth
                     >Войти</Button>
                     <LoginModal open={open === "singIn"} handleClose={handleClose} enterRef={enterRef} />
-                    <Dialog open={open === "registration"} onClose={handleClose} fullWidth>
-                        <DialogContent className={classes.registration}>
-                            <FormControl component={"fieldset"} fullWidth>
-                                <FormGroup aria-label={"position"}>
-                                    <div className={classes.registrationTitle}>
-                                        <TwitterIcon color={"primary"} />
-                                        <Button onClick={handleClose} variant={"contained"}>Далее</Button>
-                                    </div>
-                                    <div>
-                                        <DialogContentText>
-                                            <Typography variant={"h6"}
-                                                        fontWeight={"bold"}
-                                                        color={"black"}
-                                            >Создайте учётную запись</Typography>
-                                        </DialogContentText>
-                                        <TextField
-                                            margin="normal"
-                                            id="name"
-                                            label="Имя"
-                                            type="name"
-                                            fullWidth
-                                            variant="filled"
-                                            InputLabelProps={{shrink: true}}
-                                            inputRef={enterRef}
-                                        />
-                                        <TextField
-                                            margin="dense"
-                                            id="name"
-                                            label="E-mail"
-                                            type="email"
-                                            fullWidth
-                                            variant="filled"
-                                            InputLabelProps={{shrink: true}}
-                                        />
-                                    </div>
-                                </FormGroup>
-                            </FormControl>
-                        </DialogContent>
-                    </Dialog>
+                    <RegisterModal open={open === "registration"} handleClose={handleClose} enterRef={enterRef} />
                 </div>
             </section>
         </div>

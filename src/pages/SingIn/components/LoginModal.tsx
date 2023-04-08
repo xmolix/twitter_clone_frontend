@@ -1,4 +1,4 @@
-import React, {FC, ReactElement, RefObject} from 'react';
+import React, {FC, ReactElement, RefObject, useState} from 'react';
 import {TwitterModal} from "../../../components/Modals/TwitterModal";
 import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {actionUser} from "../../../store/ducks/user/actionCreators";
 import {selectUserStatus} from "../../../store/ducks/user/selectors";
 import {LoadingStatusEnum} from "../../../store/storeTypes";
+import {Loading} from "../../../components/Loading";
 
 const validationSchema = yup.object().shape({
     email: yup.string().email("* Не валидная почта")
@@ -25,25 +26,22 @@ const validationSchema = yup.object().shape({
         .min(8, "* Минимальная длина пароля 8 символов"),
 })
 
-// let notificationError: Error | unknown
-// let notificationSuccess: boolean | unknown
-
 export const LoginModal: FC<LoginModalPropsType> = ({ open, handleClose, enterRef }): ReactElement => {
     const dispatch = useDispatch()
 
+    const [notificationSuccess, setNotificationSuccess] = useState(false)
+    const [notificationError, setNotificationError] = useState(false)
+
     const userState = useSelector(selectUserStatus)
 
-    const { register, handleSubmit, formState: { errors, isSubmitting  } } = useForm<LoginFormPropsType>({
+    const { register, handleSubmit, formState: { errors, isSubmitted } } = useForm<LoginFormPropsType>({
         resolver: yupResolver(validationSchema)
     })
 
     const onSubmit = async (data: LoginFormPropsType): Promise<void> => {
-        dispatch(actionUser.fetchUserData(data))
-        if (userState === LoadingStatusEnum.SUCCESS) {
-            handleClose()
-        }
+        dispatch(actionUser.fetchSignIn(data))
     }
-
+    
 
     return (
         <>
@@ -82,8 +80,12 @@ export const LoginModal: FC<LoginModalPropsType> = ({ open, handleClose, enterRe
                                 <Button type={"submit"}
                                         variant={"contained"}
                                         style={{ margin: "0 0 8px" }}
-                                        fullWidth
-                                >Войти
+                                        disabled={userState === LoadingStatusEnum.LOADING}
+                                        fullWidth>
+                                    { userState === LoadingStatusEnum.LOADING
+                                        ? <Loading color={"inherit"} />
+                                        : "Войти"
+                                    }
                                 </Button>
                             </FormGroup>
                         </FormControl>
@@ -91,10 +93,10 @@ export const LoginModal: FC<LoginModalPropsType> = ({ open, handleClose, enterRe
                     </form>
                 </DialogContent>
             </TwitterModal>
-            <Notification visible={!isSubmitting && userState === LoadingStatusEnum.ERROR} severity={"error"}>
+            <Notification visible={notificationError} severity={"error"}>
                 <> Неверный логин или пароль <Typography component={"span"} role={"img"}>☹️</Typography></>
             </Notification>
-            <Notification visible={!isSubmitting && userState === LoadingStatusEnum.SUCCESS} severity={"success"}>
+            <Notification visible={notificationSuccess} severity={"success"}>
                 <> Авторизация успешна! <Typography component={"span"} role={"img"}>🤩</Typography></>
             </Notification>
         </>
