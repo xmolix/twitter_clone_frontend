@@ -36,8 +36,11 @@ export const tweetsReducer = produce(
         }
         case TweetsActionEnum.ADD_TWEET: {
             draft.items.unshift(action.payload)
-            // TODO: What status choose if tweet was added
             draft.addTweetState = AddTweetEnum.NEVER
+            break
+        }
+        case TweetsActionEnum.REMOVE_TWEET: {
+            draft.items = draft.items.filter(obj => obj._id !== action.payload)
             break
         }
         default: {

@@ -14,13 +14,12 @@ const App = () => {
 
     const isAuth = useSelector(selectUserIsAuth)
     const isLoaded = useSelector(selectUserIsLoaded)
-    // @ts-ignore
-    const isReady = isLoaded !== LoadingStatusEnum.NEVER && isLoaded !== LoadingStatusEnum.LOADING
+    const isReady = isLoaded !== !!LoadingStatusEnum.NEVER || isLoaded !== !!LoadingStatusEnum.LOADING
 
     const redirect = useNavigate()
 
     useEffect(() => {
-        if (!isAuth && isReady) {
+        if (isAuth && isReady) {
             redirect("/")
         }
     }, [isAuth, isReady, redirect])

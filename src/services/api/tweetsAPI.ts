@@ -11,8 +11,12 @@ export const TweetsAPI = {
         const { data } = await axios.get<ResponseAPIType<TweetType>>(`/tweets/${tweetID}`)
         return data.data
     },
-    async fetchAddTweet(payload: TweetType["text"]): Promise<TweetType> {
-        const { data } = await axios.post<ResponseAPIType<TweetType>>("/tweets", { text: payload })
+    async fetchAddTweet(payload: TweetType["text"] & TweetType["images"]): Promise<TweetType> {
+        const { data } = await axios.post<ResponseAPIType<TweetType>>("/tweets", payload)
+        return data.data
+    },
+    async fetchRemoveTweet(id: string): Promise<TweetType["_id"]> {
+        const {data} = await axios.delete<ResponseAPIType<TweetType["_id"]>>("/tweets/" + id)
         return data.data
     }
 }

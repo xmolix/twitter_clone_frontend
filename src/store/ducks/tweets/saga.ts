@@ -1,4 +1,4 @@
-import {actionTweets, FetchAddTweetActionType, TweetsActionEnum} from "./actionCreators";
+import {actionTweets, FetchAddTweetActionType, RemoveTweetActionType, TweetsActionEnum} from "./actionCreators";
 import {call, put, takeLatest} from "redux-saga/effects"
 import {TweetsAPI} from "../../../services/api/tweetsAPI";
 import {AddTweetEnum, TweetsStateType} from "./contracts/state";
@@ -14,12 +14,22 @@ function* fetchTweetsRequest(): Generator {
     }
 }
 
-function* fetchAddTweetRequest({ payload: text }: FetchAddTweetActionType): Generator {
+function* fetchAddTweetRequest({ payload }: FetchAddTweetActionType): Generator {
     try {
         // @ts-ignore
-        const item: TweetType = yield call(TweetsAPI.fetchAddTweet, text)
+        const item: TweetType = yield call(TweetsAPI.fetchAddTweet, payload)
         yield put(actionTweets.addTweet(item))
     } catch (error) {
+        yield put(actionTweets.setAddTweetState(AddTweetEnum.ERROR))
+    }
+}
+
+function* fetchRemoveTweetRequest({ payload }: RemoveTweetActionType): Generator {
+    try {
+        // @ts-ignore
+        const item: TweetType = yield call(TweetsAPI.fetchRemoveTweet, payload)
+        yield put(actionTweets.removeTweet(item._id))
+    } catch {
         yield put(actionTweets.setAddTweetState(AddTweetEnum.ERROR))
     }
 }
@@ -27,4 +37,5 @@ function* fetchAddTweetRequest({ payload: text }: FetchAddTweetActionType): Gene
 export function* watchTweetsSaga() {
     yield takeLatest(TweetsActionEnum.FETCH_TWEETS, fetchTweetsRequest)
     yield takeLatest(TweetsActionEnum.FETCH_ADD_TWEET, fetchAddTweetRequest)
+    yield takeLatest(TweetsActionEnum.REMOVE_TWEET, fetchRemoveTweetRequest)
 }

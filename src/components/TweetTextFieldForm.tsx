@@ -1,11 +1,9 @@
-import React, {FC, FormEvent, useState} from 'react';
+import React, {Dispatch, FC, FormEvent, SetStateAction, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {ClassesAvatarType, ClassesTweetType} from "../pages/Home/theme";
 import {actionTweets} from "../store/ducks/tweets/actionCreators";
 import {selectAddTweetState} from "../store/ducks/tweets/selectors";
 import {AddTweetEnum} from "../store/ducks/tweets/contracts/state";
-
-import ImageIcon from "@mui/icons-material/CropOriginal";
 import EmojiIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 
 import {styled} from '@mui/material';
@@ -17,11 +15,16 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import {Loading} from "./Loading";
 import {Notification} from "./Notification";
+import {UploadImages} from "./UploadImages";
+import {uploadImage} from "../utils/uploadImage";
+import {ImagesList} from "./ImagesList";
 
 const TweetTextField = styled(Paper)({
     padding: "20px 15px",
+    overflow: "hidden",
 })
 
 const Textarea = styled(TextareaAutosize)({
@@ -47,12 +50,18 @@ const classesCircleProgress = {
 
 const MAX_LENGTH = 280 - 1
 
+export type ImageObjType = {
+    url: string,
+    file: File,
+}
+
 export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
     { classesTweet, classesAvatar }
 ) => {
     const dispatch = useDispatch()
 
     const [text, setText] = useState<string>("")
+    const [images, setImages] = useState<ImageObjType[]>([])
 
     const textLimitPercent = Math.round((text.length / MAX_LENGTH) * 100)
 
@@ -68,9 +77,17 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
         }
     }
 
-    const handleClickAddTweet = (): void => {
-        dispatch(actionTweets.fetchAddTweet(text))
+    const handleClickAddTweet = async (): Promise<void> => {
+        let result: string[] = []
+        dispatch(actionTweets.setAddTweetState(AddTweetEnum.LOADING))
+        for (const value of images) {
+            const index = images.indexOf(value);
+            const { url } = await uploadImage(images[index].file)
+            result.push(url)
+        }
+        dispatch(actionTweets.fetchAddTweet({ text, images: result }))
         setText("")
+        setImages([])
     }
 
     return (
@@ -92,14 +109,15 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
                                   maxRows={15}
                                   value={text}
                         />
-                        <Grid container columnSpacing={1} sx={{marginTop: 3}}>
+                        <ImagesList images={images} setImages={setImages} />
+                        <Grid container columnSpacing={1} sx={images[0] ? {marginTop: 1.5} : {marginTop: 3}}>
                             <Grid xs={6} item>
-                                <IconButton>
-                                    <ImageIcon color={"primary"} />
-                                </IconButton>
-                                <IconButton>
-                                    <EmojiIcon color={"primary"} />
-                                </IconButton>
+                                <Stack direction="row" spacing={0}>
+                                    <UploadImages images={images} setImages={setImages} />
+                                    <IconButton>
+                                        <EmojiIcon color={"primary"} />
+                                    </IconButton>
+                                </Stack>
                             </Grid>
                             <Grid xs={6} item container justifyContent={"end"}>
                                 <Grid sx={classesCircleProgress}>
@@ -147,4 +165,9 @@ export const TweetTextFieldForm: FC<TweetTextFieldFormPropsType> = (
 type TweetTextFieldFormPropsType = {
     classesTweet: ClassesTweetType,
     classesAvatar: ClassesAvatarType,
+}
+
+export type ImagesPropsType = {
+    images: ImageObjType[],
+    setImages: Dispatch<SetStateAction<ImageObjType[]>>,
 }

@@ -20,6 +20,13 @@ export const userReducer = produce(
             draft.status = action.payload
             break
         }
+        case UserActionEnum.FETCH_SIGN_OUT: {
+            draft.data = undefined
+            draft.status = LoadingStatusEnum.NEVER
+
+            window.localStorage.setItem("token", "")
+            break
+        }
         default: {
             break
         }
