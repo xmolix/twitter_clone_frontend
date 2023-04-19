@@ -9,6 +9,7 @@ export enum TweetsActionEnum {
     SET_LOADING_STATE = "tweets/SET_LOADING_STATE",
     FETCH_ADD_TWEET = "tweets/FETCH_ADD_TWEET",
     ADD_TWEET = "tweets/ADD_TWEET",
+    REMOVE_TWEET = "tweets/REMOVE_TWEET",
     SET_ADD_TWEET_STATE = "tweets/SET_ADD_TWEET_STATE",
 }
 
@@ -22,11 +23,14 @@ export const actionTweets = {
     setTweetsLoadingState: (payload: LoadingStatusEnum): ReturnActionsTypes<SetTweetsLoadingStateActionType> => (
         {type: TweetsActionEnum.SET_LOADING_STATE, payload} as const
     ),
-    fetchAddTweet: (payload: string): ReturnActionsTypes<FetchAddTweetActionType> => ({
+    fetchAddTweet: (payload: { text: string, images: string[] | undefined }): ReturnActionsTypes<FetchAddTweetActionType> => ({
         type: TweetsActionEnum.FETCH_ADD_TWEET, payload
     } as const),
     addTweet: (payload: TweetType): ReturnActionsTypes<AddTweetActionType> => ({
         type: TweetsActionEnum.ADD_TWEET, payload
+    } as const),
+    removeTweet: (payload: string): ReturnActionsTypes<RemoveTweetActionType> => ({
+        type: TweetsActionEnum.REMOVE_TWEET, payload
     } as const),
     setAddTweetState: (payload: AddTweetEnum): ReturnActionsTypes<SetAddTweetStateActionType> => ({
         type: TweetsActionEnum.SET_ADD_TWEET_STATE, payload
@@ -49,12 +53,20 @@ type SetTweetsLoadingStateActionType = {
 
 export type FetchAddTweetActionType = {
     type: TweetsActionEnum.FETCH_ADD_TWEET,
-    payload: string
+    payload: {
+        text: string,
+        images: string[] | undefined,
+    }
 }
 
 export type AddTweetActionType = {
     type: TweetsActionEnum.ADD_TWEET,
     payload: TweetType
+}
+
+export type RemoveTweetActionType = {
+    type: TweetsActionEnum.REMOVE_TWEET,
+    payload: string,
 }
 
 type SetAddTweetStateActionType = {

@@ -18,6 +18,8 @@ export const TweetsWrapper = styled(Paper)({
 })
 
 export const TweetHeader = styled(Paper)({
+    background: "rgb(255,255,255, .65)",
+    backdropFilter: "blur(12px)",
     padding: "10px 15px",
     height: 53,
     position: "relative",

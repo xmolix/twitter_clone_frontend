@@ -10,6 +10,7 @@ export enum UserActionEnum {
     SET_LOADING_STATE = "user/SET_LOADING_STATE",
     FETCH_SIGN_IN = "user/FETCH_SIGN_IN",
     FETCH_SIGN_UP = "user/FETCH_SIGN_UP",
+    FETCH_SIGN_OUT = "user/FETCH_SIGN_OUT",
     FETCH_USER_DATA = "user/FETCH_USER_DATA",
 }
 
@@ -26,9 +27,12 @@ export const actionUser = {
     fetchSignUp: (payload: RegisterFormPropsType): ReturnActionTypes<FetchSignUpActionType> => ({
         type: UserActionEnum.FETCH_SIGN_UP, payload
     } as const),
+    fetchSignOut: (): ReturnActionTypes<FetchSignOutActionType> => ({
+        type: UserActionEnum.FETCH_SIGN_OUT
+    } as const),
     fetchUserData: (): ReturnActionTypes<FetchUserDataActionType> => ({
         type: UserActionEnum.FETCH_USER_DATA
-    })
+    } as const),
 }
 
 type SetUserDataActionType = {
@@ -49,6 +53,10 @@ export type FetchSignInActionType = {
 export type FetchSignUpActionType = {
     type: UserActionEnum.FETCH_SIGN_UP,
     payload: RegisterFormPropsType
+}
+
+export type FetchSignOutActionType = {
+    type: UserActionEnum.FETCH_SIGN_OUT,
 }
 
 export type FetchUserDataActionType = {

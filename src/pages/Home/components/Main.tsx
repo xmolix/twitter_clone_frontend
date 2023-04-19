@@ -36,7 +36,8 @@ export const Main = () => {
                                            fullName: tweet.user.fullName,
                                            userName: tweet.user.userName,
                                            avatar: tweet.user.avatar,
-                                       }}
+                                        }}
+                                        images={tweet.images}
                         />
                     )
                 }

@@ -14,5 +14,6 @@ export type TweetType = {
         avatar: string,
     },
     text: string,
+    images?: string[] | undefined,
     createdAt: string,
 }

@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Avatar, Fade, Grid, IconButton, Paper, styled, Typography} from "@mui/material";
+import {Avatar, Fade, Grid, IconButton, ImageList, ImageListItem, Paper, styled, Typography} from "@mui/material";
 import CommentIcon from "@mui/icons-material/ModeCommentOutlined";
 import {grey} from "@mui/material/colors";
 import RetweetIcon from "@mui/icons-material/ScreenRotationAltOutlined";
@@ -16,6 +16,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForeverOutlined';
 import WriteIcon from '@mui/icons-material/CreateOutlined';
+import {useDispatch} from "react-redux";
+import {actionTweets} from "../store/ducks/tweets/actionCreators";
 
 const TweetContent = styled(Paper)({
     padding: "15px 15px 5px 15px",
@@ -72,7 +74,9 @@ const MoreMenu = styled(Menu)({
     }
 })
 
-export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) => {
+export const TweetComponent: FC<TweetType> = ({ _id, user, text, images, createdAt }) => {
+    const dispatch = useDispatch()
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
 
@@ -86,12 +90,18 @@ export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) =>
         setAnchorEl(null)
     }
 
+    const handleRemove = (event: React.MouseEvent<HTMLElement>, id: string): void => {
+        handleClose(event)
+        dispatch(actionTweets.removeTweet(id))
+    }
+
     const options = ([
         {
-            id: 1,
+            id: _id,
             data: <><DeleteForeverIcon color={"error"} />
                 <Typography color={"error"}>Удалить</Typography>
-            </>
+            </>,
+            onClick: (e: React.MouseEvent<HTMLElement>) => handleRemove(e, _id)
         },
         {id: 2, data: <><WriteIcon /><Typography>Редактировать</Typography></>}
     ])
@@ -108,15 +118,38 @@ export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) =>
                                 />
                             </Grid>
                             <Grid item xs={10}>
-                            <UserName component={"div"}>
-                                <b>{user.fullName}</b>&nbsp;
-                                <span>{`@${user.userName}`}</span>&nbsp;
-                                <span>·</span>&nbsp;
-                                <span>{formatDate(new Date(createdAt))}</span>
-                            </UserName>
-                            <Typography component={"div"} lineHeight={1.31} sx={{ wordBreak: "break-word" }}>
-                                {text}
-                            </Typography>
+                                <UserName component={"div"}>
+                                    <b>{user.fullName}</b>&nbsp;
+                                    <span>{`@${user.userName}`}</span>&nbsp;
+                                    <span>·</span>&nbsp;
+                                    <span>{formatDate(new Date(createdAt))}</span>
+                                </UserName>
+                                <Typography component={"div"} lineHeight={1.31} sx={{ wordBreak: "break-word" }}>
+                                    {text}
+                                </Typography>
+                                { images !== undefined && images[0] && <>
+                                    <Typography component={"div"} sx={{ height: 285,}}>
+                                    <ImageList sx={{ width: "100%",
+                                        height: "100%",
+                                        overflow: "hidden",
+                                        borderRadius: 5,
+                                        backgroundSize: "cover",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center",
+                                        objectFit: "cover"
+                                    }} cols={1}>
+                                        {images.map((item) => (
+                                            <ImageListItem key={item}>
+                                                <img src={item}
+                                                     srcSet={item}
+                                                     alt={item}
+                                                     loading="lazy"
+                                                />
+                                            </ImageListItem>
+                                        ))}
+                                    </ImageList>
+                                    </Typography>
+                                </>}
                             <Grid container alignItems={"center"} marginTop={.8} columnSpacing={1}>
                                 <Grid container alignItems={"center"} item xs={2}>
                                     <Tooltip TransitionComponent={Fade}
@@ -207,7 +240,7 @@ export const TweetComponent: FC<TweetType> = ({ _id, user, text, createdAt }) =>
                                         }}
                                     >
                                         {options.map((option) => (
-                                            <MenuItem key={option.id} selected={false} onClick={handleClose}>
+                                            <MenuItem key={option.id} selected={false} onClick={option.onClick}>
                                                 {option.data}
                                             </MenuItem>
                                         ))}
